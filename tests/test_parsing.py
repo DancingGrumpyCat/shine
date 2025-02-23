@@ -14,19 +14,23 @@ def test_parse_bubbles():
     assert len(example_bubbles) == 2
 
 def test_eval_bubbles():
+    # parse bubbles
+
     example_bubbles = [
         bubbles.Bubble.from_json(data)
         for data in example_data
     ]
 
-    class StrlenFormula(bubbles.Formula):
-        def eval(self, universe):
-            return len
-
     universe = {
         bubble.uuid: bubble
         for bubble in example_bubbles
     }
+
+    # create builtin
+
+    class StrlenFormula(bubbles.Formula):
+        def eval(self, universe):
+            return len
 
     universe["immaterial-uuid"] = bubbles.Bubble(
         uuid="immaterial-uuid",
@@ -34,6 +38,8 @@ def test_eval_bubbles():
         name="strlen",
         formula=StrlenFormula()
     )
+
+    # evaluation
 
     bubble = universe["this-is-another-uuid"]
     result = bubble.formula.eval(universe)

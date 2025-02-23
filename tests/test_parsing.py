@@ -1,4 +1,5 @@
 import json
+from frozendict import frozendict
 import shine.bubbles as bubbles
 from pathlib import Path
 
@@ -41,6 +42,7 @@ def test_eval_bubbles():
 
     # evaluation
 
+    universe = frozendict(universe)
     bubble = universe["this-is-another-uuid"]
     result = bubble.formula.eval(universe)
     assert result == len("Hello, world!")

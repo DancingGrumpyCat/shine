@@ -10,6 +10,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+frozendict = "^2.4.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"

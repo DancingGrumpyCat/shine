@@ -1,4 +1,6 @@
 from collections import namedtuple
+from functools import lru_cache
+from frozendict import frozendict
 
 Position = namedtuple('Position', ['x', 'y'])
 
@@ -18,11 +20,20 @@ class Bubble:
         self.name = name
         self.formula = formula
 
+    def __hash__(self):
+        return hash(self.uuid)
+
     def __str__(self):
         return repr(self)
 
     def __repr__(self):
         return f"Bubble({self.uuid}, {self.position}, {self.name}, {self.formula})"
+
+@lru_cache()
+def eval(bubble, universe):
+    if bubble.formula is None:
+        raise ValueError(f"Attempt to evaluate bubble with no formula: {bubble}")
+    return bubble.formula.eval(universe)
 
 def parse_formula(formula):
     match formula["type"]:
@@ -40,7 +51,7 @@ def parse_formula(formula):
 class Formula:
     type = "generic_formula"
 
-    def eval(self, universe: dict[str, Bubble]):
+    def eval(self, universe: frozendict[str, Bubble]):
         raise NotImplementedError("eval() must be implemented by subclasses")
 
 class StringLiteral(Formula):
@@ -79,9 +90,7 @@ class Reference(Formula):
 
         if found is None:
             raise ValueError(f"Reference to non-existent bubble: {self.value}")
-        if found.formula is None:
-            raise ValueError(f"Reference to bubble with no formula: {self.value}")
-        return found.formula.eval(universe)
+        return eval(found, universe)
 
     def __str__(self):
         return repr(self)

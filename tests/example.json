@@ -1,0 +1,33 @@
+[
+  {
+    "uuid": "this-is-a-uuid",
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "name": "greeting",
+    "formula": {
+      "type": "literal_string",
+      "value": "Hello, world!"
+    }
+  },
+  {
+    "uuid": "this-is-another-uuid",
+    "position": {
+      "x": 100,
+      "y": 0
+    },
+    "name": "lengthifier",
+    "formula": {
+      "type": "function_call",
+      "function": {
+        "type": "reference",
+        "value": "strlen"
+      },
+      "argument": {
+        "type": "reference",
+        "value": "greeting"
+      }
+    }
+  }
+]

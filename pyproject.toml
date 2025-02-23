@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Fen <fen@fen.sh>", "Eszter <info@eszter.cc>"]
 readme = "README.md"
+packages = [
+    { include = "shine" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
